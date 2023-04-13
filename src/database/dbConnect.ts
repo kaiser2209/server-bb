@@ -47,7 +47,7 @@ class Mongo implements Database {
       await mongoose.connect(
         `mongodb://${hasAuth ? `${this.user}:${this.pass}@` : ""}${this.host}:${
           this.port
-        }/${this.dbName}${hasAuth ? `?authSource=${this.dbName}` : ""}`
+        }/${this.dbName}${hasAuth ? `?authSource=admin` : ""}`
       );
 
       //Instancia a conexão com o MongoDB
