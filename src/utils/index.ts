@@ -29,7 +29,7 @@ export function Responses(
 }
 
 export function playAudio() {
-  const audioMp3 = "../assets/audio/pega_ladrao.mp3";
+  const audioMp3 = "../../assets/audio/pega_ladrao.mp3";
   player().play(audioMp3, (err) => {
     if (err) console.log(`Erro ao tocar áudio: ${err}`);
   });
