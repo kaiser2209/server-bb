@@ -1,8 +1,8 @@
-import { CreateRoom } from "../interfaces";
+import { CreateItem } from "../interfaces";
 import itens from "../models/item";
 
 class itemService {
-  public async createItem(data: CreateRoom) {
+  public async createItem(data: CreateItem) {
     try {
       let item = new itens(data);
 
