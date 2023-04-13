@@ -25,3 +25,10 @@ export function Responses(
   }
   return res.status(status ? status : 500).json(response);
 }
+
+export function playAudio() {
+  const audioMp3 = "../assets/audio/pega_ladrao.mp3";
+  const audio = new Audio(audioMp3);
+
+  audio.play();
+}
