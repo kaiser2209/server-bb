@@ -51,6 +51,7 @@ class itemService {
           status: 200,
           data: {
             status: true,
+            result,
           },
         };
       } else {
