@@ -28,43 +28,74 @@ class itemService {
     }
   }
 
-  public async verifyRoom(tag: string, antenna: string) {
+  public async verifyRoom(tags: string[], antenna: string) {
     try {
+      const promises = [];
       db.execute();
-      const result = await itens.aggregate([
-        {
-          $match: {
-            tag: tag,
-          },
-        },
-        {
-          $unwind: {
-            path: "$rooms",
-          },
-        },
-        {
-          $match: {
-            "rooms.id": antenna,
-          },
-        },
-      ]);
+      for(var tag of tags) {
+        promises.push(new Promise(async (resolve, reject) => {
+          const result = await itens.aggregate([
+            {
+              $match: {
+                tag: tag,
+              },
+            },
+            {
+              $unwind: {
+                path: "$rooms",
+              },
+            },
+            {
+              $match: {
+                "rooms.id": antenna,
+              },
+            },
+          ]);
 
-      if (result.length > 0) {
+          resolve(result);
+        }));
+      }
+
+        const resultPromise: any[] = await Promise.all(promises);
+
+        const result = resultPromise.map(r => {
+          if(r.length > 0) {
+            return {
+              data: {
+                status: true,
+                r
+              }
+            }
+          } else {
+            return {
+              data: {
+                status: false,
+                r
+              }
+            }
+          }
+        });
+        
+        const unauthorized = result.filter(r => r.data.status == false).length > 0;
+
+        if(unauthorized) {
+          return {
+            status: 200,
+            data: {
+              status: false,
+              data: result
+            }
+          }
+        }
+
         return {
           status: 200,
           data: {
             status: true,
-            result,
-          },
-        };
-      } else {
-        return {
-          status: 200,
-          data: {
-            status: false,
-          },
-        };
-      }
+            data: result
+          }
+        }
+
     } catch (err: any) {
       return {
         status: err.status || 500,
@@ -107,7 +138,6 @@ class itemService {
       }
 
       const response = await Promise.all(promises);
-      //const response = await itens.find({ tag: tag });
 
       if (response) {
         return {
