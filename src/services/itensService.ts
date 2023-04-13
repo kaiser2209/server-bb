@@ -25,6 +25,49 @@ class itemService {
       };
     }
   }
+
+  public async verifyRoom(tag: string, antenna: string) {
+    try {
+      const result = await itens.aggregate([
+        {
+          $match: {
+            tag: tag,
+          },
+        },
+        {
+          $unwind: {
+            path: "$rooms",
+          },
+        },
+        {
+          $match: {
+            "rooms.id": antenna,
+          },
+        },
+      ]);
+
+      if (result) {
+        return {
+          status: 200,
+          data: {
+            status: true,
+          },
+        };
+      } else {
+        return {
+          status: 200,
+          data: {
+            status: false,
+          },
+        };
+      }
+    } catch (err: any) {
+      return {
+        status: err.status || 500,
+        message: err.message,
+      };
+    }
+  }
 }
 
 export default itemService;
