@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import itemService from "../services/itensService";
 import { Responses } from "../utils";
+import socket from "../socket";
 
 const router = Router();
 
@@ -17,6 +18,21 @@ router.get('/', async (req: Request, res: Response) => {
         result.message,
         result.data
     );
+
+    const permission = result.data?.status;
+
+    if(!permission) {
+        socket.sendMessage('Alarm', {
+            title: 'Falha de Permissão',
+            message: 'Tag fora da área permitida. Favor verificar.',
+            object: result.data?.result
+        })
+    }
+
+    socket.sendMessage('Tag', {
+        title: 'Localização da Tag',
+        object: result.data?.result
+    })
 });
 
 export { router as routerTag }
