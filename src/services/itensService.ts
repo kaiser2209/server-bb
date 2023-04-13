@@ -72,6 +72,50 @@ class itemService {
       };
     }
   }
+
+  public async getItens() {
+    try {
+      const response = await itens.find();
+
+      if (response) {
+        return {
+          status: 200,
+          data: response,
+        };
+      } else {
+        return {
+          status: 500,
+        };
+      }
+    } catch (err: any) {
+      return {
+        status: err.status || 500,
+        message: err.message,
+      };
+    }
+  }
+
+  public async getByTag(tag: string) {
+    try {
+      const response = await itens.find({ tag: tag });
+
+      if (response) {
+        return {
+          status: 200,
+          data: response,
+        };
+      } else {
+        return {
+          status: 500,
+        };
+      }
+    } catch (err: any) {
+      return {
+        status: err.status || 500,
+        message: err.message,
+      };
+    }
+  }
 }
 
 export default itemService;
