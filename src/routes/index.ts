@@ -1,5 +1,6 @@
 import { Router, Response } from "express";
 import { routerItem } from "./item";
+import { routerTag } from "./tag";
 
 const router = Router();
 
@@ -8,5 +9,6 @@ router.get('/status', (_, res: Response) => {
 });
 
 router.use('/item', routerItem);
+router.use('/tag', routerTag);
 
 export default router;
