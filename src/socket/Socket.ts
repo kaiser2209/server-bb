@@ -19,7 +19,9 @@ export class Socket {
     }
 
     sendMessage(event: string, message: {
-        id: string
+        title: string,
+        message?: string,
+        object: any
     }) {
         this.io?.emit(event, message);
     }
