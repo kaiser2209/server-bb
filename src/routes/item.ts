@@ -10,4 +10,8 @@ router.post('/create_room', (req: Request, res: Response) => {
 
 });
 
+router.get('/verify_room', (req: Request, res: Response) => {
+
+});
+
 export { router as routerItem }
