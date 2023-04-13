@@ -1,7 +1,10 @@
 import express, { json } from "express";
 import Mongo from "./src/database/dbConnect";
 import router from "./src/routes";
+import * as dotenv from "dotenv";
 import socket from "./src/socket";
+
+dotenv.config();
 
 const app = express();
 export const db = new Mongo();
