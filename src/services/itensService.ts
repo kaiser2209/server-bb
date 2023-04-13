@@ -1,9 +1,11 @@
+import { db } from "../../server";
 import { CreateItem } from "../interfaces";
 import itens from "../models/item";
 
 class itemService {
   public async createItem(data: CreateItem) {
     try {
+      db.execute();
       let item = new itens(data);
 
       const result = await item.save();
@@ -28,6 +30,7 @@ class itemService {
 
   public async verifyRoom(tag: string, antenna: string) {
     try {
+      db.execute();
       const result = await itens.aggregate([
         {
           $match: {

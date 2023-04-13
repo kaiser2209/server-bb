@@ -1,9 +1,11 @@
+import { db } from "../../server";
 import { CreateRoom } from "../interfaces";
 import rooms from "../models/room";
 
 class roomService {
   public async createRoom(data: CreateRoom) {
     try {
+      db.execute();
       let room = new rooms(data);
 
       const result = await room.save();
