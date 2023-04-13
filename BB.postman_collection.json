@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "2c94274f-aa52-4c34-b060-d9058be8e9ef",
+		"name": "BB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19718897"
+	},
+	"item": [
+		{
+			"name": "Create Item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Cilindro de oxigenio\",\n    \"tag\": \"000B101100003030AAAAAAAA\",\n    \"rooms\": [{\"id\": \"b47f6f3b-38c3-4980-8817-d138e9c287c3\"}]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/item/create_item",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"item",
+						"create_item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create_Room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Sala 1\",\n    \"antenna\": [\"0001\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/item/create_room",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"item",
+						"create_room"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tag",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tag\": \"000B101100003030AAAAAAAA\",\n    \"antenna\": \"0001\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/tag",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"tag"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
