@@ -1,5 +1,7 @@
 import { Response } from "express";
 
+import player from "play-sound";
+
 export function Responses(
   res: Response,
   status?: number | undefined,
@@ -28,7 +30,7 @@ export function Responses(
 
 export function playAudio() {
   const audioMp3 = "../assets/audio/pega_ladrao.mp3";
-  const audio = new Audio(audioMp3);
-
-  audio.play();
+  player().play(audioMp3, (err) => {
+    if (err) console.log(`Erro ao tocar áudio: ${err}`);
+  });
 }
