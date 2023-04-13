@@ -29,25 +29,11 @@ router.post('/create_item', async (req: Request, res: Response) => {
     )
 });
 
-router.post('/create_room', async (req: Request, res: Response) => {
-    const { name, antenna } = req.body;
+router.get('/', (req: Request, res: Response) => {
 
-    const result: IResponse = await room.createRoom({
-        name,
-        antenna,
-        id: v4(),
-        createdAt: (new Date()).toISOString()
-    });
-
-    Responses(
-        res,
-        result.status,
-        result.message,
-        result.data
-    )
 });
 
-router.get('/verify_room', (req: Request, res: Response) => {
+router.get('/tag', (req: Request, res: Response) => {
 
 });
 
