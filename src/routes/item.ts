@@ -29,12 +29,15 @@ router.post('/create_item', async (req: Request, res: Response) => {
     )
 });
 
-router.get('/', (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
+    const result: IResponse = await item.getItens();
 
-});
-
-router.get('/tag', (req: Request, res: Response) => {
-
+    Responses(
+        res,
+        result.status,
+        result.message,
+        result.data
+    )
 });
 
 export { router as routerItem }

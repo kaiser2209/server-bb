@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import itemService from "../services/itensService";
 import { Responses } from "../utils";
 import socket from "../socket";
+import { IResponse } from "../interfaces";
 
 const router = Router();
 
@@ -33,6 +34,19 @@ router.get('/', async (req: Request, res: Response) => {
         title: 'Localização da Tag',
         object: result.data?.result
     })
+});
+
+router.get('/by_tag', async (req: Request, res: Response) => {
+    const { tags } = req.body;
+
+    const result: IResponse = await item.getByTag(tags);
+
+    Responses(
+        res,
+        result.status,
+        result.message,
+        result.data
+    )
 });
 
 export { router as routerTag }

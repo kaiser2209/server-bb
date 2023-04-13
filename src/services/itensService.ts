@@ -95,9 +95,19 @@ class itemService {
     }
   }
 
-  public async getByTag(tag: string) {
+  public async getByTag(tags: string[]) {
     try {
-      const response = await itens.find({ tag: tag });
+      const promises = [];
+
+      for(var tag of tags) {
+        promises.push(new Promise(async (resolve, reject) => {
+          const result = await itens.findOne({ tag: tag });
+          resolve(result);
+        }));
+      }
+
+      const response = await Promise.all(promises);
+      //const response = await itens.find({ tag: tag });
 
       if (response) {
         return {
