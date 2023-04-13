@@ -34,7 +34,7 @@ class itemService {
       const result = await itens.aggregate([
         {
           $match: {
-            "tag": tag,
+            tag: tag,
           },
         },
         {
@@ -49,7 +49,7 @@ class itemService {
         },
       ]);
 
-      if (result) {
+      if (result.length > 0) {
         return {
           status: 200,
           data: {
