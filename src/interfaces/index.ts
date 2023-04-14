@@ -25,3 +25,9 @@ export interface IResponse {
   message?: string;
   data?: any;
 }
+
+export interface ITag {
+  tag: string,
+  antenna: string,
+  result: any[]
+}

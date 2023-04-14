@@ -1,5 +1,5 @@
 import { db } from "../../server";
-import { CreateItem } from "../interfaces";
+import { CreateItem, ITag } from "../interfaces";
 import itens from "../models/item";
 
 class itemService {
@@ -33,7 +33,7 @@ class itemService {
       const promises = [];
       db.execute();
       for(var tag of tags) {
-        promises.push(new Promise(async (resolve, reject) => {
+        promises.push(new Promise<ITag>(async (resolve, reject) => {
           const result = await itens.aggregate([
             {
               $match: {
@@ -52,14 +52,18 @@ class itemService {
             },
           ]);
 
-          resolve(result);
+          resolve({
+            tag,
+            antenna,
+            result
+          });
         }));
       }
 
-        const resultPromise: any[] = await Promise.all(promises);
+        const resultPromise: ITag[] = await Promise.all(promises);
 
         const result = resultPromise.map(r => {
-          if(r.length > 0) {
+          if(r.result.length > 0) {
             return {
               data: {
                 status: true,

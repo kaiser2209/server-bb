@@ -2,6 +2,8 @@ import { Response } from "express";
 
 import player from "play-sound";
 
+var playTimer: number | null;
+
 export function Responses(
   res: Response,
   status?: number | undefined,
