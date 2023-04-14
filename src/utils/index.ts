@@ -3,6 +3,7 @@ import { Response } from "express";
 import player from "play-sound";
 
 var playTimer: number | null;
+let isPlaying = false;
 
 export function Responses(
   res: Response,
@@ -31,8 +32,12 @@ export function Responses(
 }
 
 export function playAudio() {
-  const audioMp3 = "../../assets/audio/pega_ladrao.mp3";
-  const audio = player().play(audioMp3, (err) => {
-    if (err) console.log(`Erro ao tocar áudio: ${err}`);
-  });
+  if (!isPlaying) {
+    isPlaying = true;
+    const audioMp3 = "../../assets/audio/pega_ladrao.mp3";
+    player().play(audioMp3, (err) => {
+      if (err) console.log(`Erro ao tocar áudio: ${err}`);
+      isPlaying = false;
+    });
+  }
 }
