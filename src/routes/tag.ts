@@ -26,10 +26,6 @@ router.get("/", async (req: Request, res: Response) => {
 
   const authorized = result.data?.data.filter(data => data.data.status == true);
   console.log(authorized);
-  if(authorized?.length == 1) {
-    const itemTag = authorized[0].data.data.tag;
-    console.log('Bebê: ', itemTag, (await item.isBaby(itemTag)).data?.status);
-  }
 
   if (!permission) {
     socket.sendMessage("Alarm", {
@@ -38,6 +34,21 @@ router.get("/", async (req: Request, res: Response) => {
       object: result.data?.data,
     });
     playAudio("../../assets/audio/pega_ladrao.mp3");
+  } else {
+    if(authorized?.length == 1) {
+      const itemTag = authorized[0].data.data.tag;
+      const isBaby = (await item.isBaby(itemTag)).data?.status;
+      if(isBaby) {
+        console.log('Bebê: ', itemTag, isBaby);
+        playAudio("../../assets/audio/baby.mp3");
+
+        socket.sendMessage("Alarm", {
+          title: "Bebê Sozinho",
+          message: "Bebê está sozinho no quarto",
+          object: result.data?.data
+        })
+      }
+    }
   }
 
   socket.sendMessage("Tag", {
