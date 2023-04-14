@@ -19,6 +19,10 @@ const itemSchema = new mongoose.Schema({
       id: { type: String },
     },
   ],
+  baby: {
+    type: Boolean,
+    defaul: false,
+  },
   createdAt: { type: String },
   updatedAt: { type: String },
   deletedAt: { type: String },

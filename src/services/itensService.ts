@@ -32,74 +32,76 @@ class itemService {
     try {
       const promises = [];
       db.execute();
-      for(var tag of tags) {
-        promises.push(new Promise<ITag>(async (resolve, reject) => {
-          const result = await itens.aggregate([
-            {
-              $match: {
-                tag: tag,
+      for (var tag of tags) {
+        promises.push(
+          new Promise<ITag>(async (resolve, reject) => {
+            const result = await itens.aggregate([
+              {
+                $match: {
+                  tag: tag,
+                },
               },
-            },
-            {
-              $unwind: {
-                path: "$rooms",
+              {
+                $unwind: {
+                  path: "$rooms",
+                },
               },
-            },
-            {
-              $match: {
-                "rooms.id": antenna,
+              {
+                $match: {
+                  "rooms.id": antenna,
+                },
               },
-            },
-          ]);
+            ]);
 
-          resolve({
-            tag,
-            antenna,
-            result
-          });
-        }));
+            resolve({
+              tag,
+              antenna,
+              result,
+            });
+          })
+        );
       }
 
-        const resultPromise: ITag[] = await Promise.all(promises);
+      const resultPromise: ITag[] = await Promise.all(promises);
 
-        const result = resultPromise.map(r => {
-          if(r.result.length > 0) {
-            return {
-              data: {
-                status: true,
-                r
-              }
-            }
-          } else {
-            return {
-              data: {
-                status: false,
-                r
-              }
-            }
-          }
-        });
-        
-        const unauthorized = result.filter(r => r.data.status == false).length > 0;
-
-        if(unauthorized) {
+      const result = resultPromise.map((r) => {
+        if (r.result.length > 0) {
           return {
-            status: 200,
+            data: {
+              status: true,
+              r,
+            },
+          };
+        } else {
+          return {
             data: {
               status: false,
-              data: result
-            }
-          }
+              r,
+            },
+          };
         }
+      });
 
+      const unauthorized =
+        result.filter((r) => r.data.status == false).length > 0;
+
+      if (unauthorized) {
         return {
           status: 200,
           data: {
-            status: true,
-            data: result
-          }
-        }
+            status: false,
+            data: result,
+          },
+        };
+      }
 
+      return {
+        status: 200,
+        data: {
+          status: true,
+          data: result,
+        },
+      };
     } catch (err: any) {
       return {
         status: err.status || 500,
@@ -134,11 +136,13 @@ class itemService {
     try {
       const promises = [];
 
-      for(var tag of tags) {
-        promises.push(new Promise(async (resolve, reject) => {
-          const result = await itens.findOne({ tag: tag });
-          resolve(result);
-        }));
+      for (var tag of tags) {
+        promises.push(
+          new Promise(async (resolve, reject) => {
+            const result = await itens.findOne({ tag: tag });
+            resolve(result);
+          })
+        );
       }
 
       const response = await Promise.all(promises);
@@ -151,6 +155,44 @@ class itemService {
       } else {
         return {
           status: 500,
+        };
+      }
+    } catch (err: any) {
+      return {
+        status: err.status || 500,
+        message: err.message,
+      };
+    }
+  }
+
+  public async isBaby(tag: string) {
+    try {
+      const response = await itens.findOne({
+        tag: tag,
+      });
+      if (response) {
+        if (response.baby) {
+          return {
+            status: 200,
+            data: {
+              status: true,
+              response,
+            },
+          };
+        } else {
+          return {
+            status: 500,
+            data: {
+              status: false,
+            },
+          };
+        }
+      } else {
+        return {
+          status: 500,
+          data: {
+            status: false,
+          },
         };
       }
     } catch (err: any) {

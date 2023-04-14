@@ -9,6 +9,7 @@ export interface CreateItem {
   name: string;
   tag: string;
   id: string;
+  baby?: boolean;
   rooms: Array<RoomID>;
   createdAt: string;
 }
@@ -27,7 +28,7 @@ export interface IResponse {
 }
 
 export interface ITag {
-  tag: string,
-  antenna: string,
-  result: any[]
+  tag: string;
+  antenna: string;
+  result: any[];
 }
