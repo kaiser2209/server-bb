@@ -16,11 +16,20 @@ router.get("/by_tag", async (req: Request, res: Response) => {
 router.get("/", async (req: Request, res: Response) => {
   const { tags, antenna } = req.body;
 
+  console.log('Verificação de quarto: ', tags);
+
   const result = await item.verifyRoom(tags, antenna);
 
   Responses(res, result.status, result.message, result.data);
 
   const permission = result.data?.status;
+
+  const authorized = result.data?.data.filter(data => data.data.status == true);
+  console.log(authorized);
+  if(authorized?.length == 1) {
+    const item = authorized[0].data.data.tag;
+    console.log('Bebê: ', item);
+  }
 
   if (!permission) {
     socket.sendMessage("Alarm", {

@@ -67,14 +67,14 @@ class itemService {
             return {
               data: {
                 status: true,
-                r
+                data: r
               }
             }
           } else {
             return {
               data: {
                 status: false,
-                r
+                data: r
               }
             }
           }
