@@ -5,11 +5,13 @@ import { Responses } from "../utils";
 import { v4 } from "uuid";
 import { CreateItemUseCase } from "../usecases/items/create/CreateItemUseCase";
 import { FindAllItensUseCase } from "../usecases/items/findAll/FindAllItensUseCase";
+import { FindByTagUseCase } from "../usecases/items/findByTag/FindByTagUseCase";
 
 export class ItemController {
     constructor(
         private createUseCase: CreateItemUseCase,
-        private findAllUseCase: FindAllItensUseCase
+        private findAllUseCase: FindAllItensUseCase,
+        private findByTagUseCase: FindByTagUseCase
     ){}
 
     async create(req: Request, res: Response) {
@@ -40,6 +42,14 @@ export class ItemController {
             result.status,
             result.message,
             result.data
-    )
+        )
+    }
+
+    async findByTag(req: Request, res: Response) {
+        const { tags } = req.body;
+
+        const result = await this.findByTagUseCase.call(tags);
+
+        Responses(res, result.status, result.message, result.data);
     }
 }

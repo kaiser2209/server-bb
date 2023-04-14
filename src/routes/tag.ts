@@ -3,17 +3,14 @@ import itemService from "../services/itensService";
 import { playAudio, Responses } from "../utils";
 import socket from "../socket";
 import { IResponse } from "../interfaces";
+import { itemController } from ".";
 
 const router = Router();
 
 const item = new itemService();
 
 router.get("/by_tag", async (req: Request, res: Response) => {
-  const { tags } = req.body;
-
-  const result = await item.getByTag(tags);
-
-  Responses(res, result.status, result.message, result.data);
+  itemController.findByTag(req, res);
 });
 
 router.get("/", async (req: Request, res: Response) => {
