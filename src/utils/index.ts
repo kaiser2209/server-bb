@@ -31,10 +31,9 @@ export function Responses(
   return res.status(status ? status : 500).json(response);
 }
 
-export function playAudio() {
+export function playAudio(audioMp3: string) {
   if (!isPlaying) {
     isPlaying = true;
-    const audioMp3 = "../../assets/audio/pega_ladrao.mp3";
     player().play(audioMp3, (err) => {
       if (err) console.log(`Erro ao tocar áudio: ${err}`);
     });
