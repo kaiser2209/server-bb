@@ -27,8 +27,8 @@ router.get("/", async (req: Request, res: Response) => {
   const authorized = result.data?.data.filter(data => data.data.status == true);
   console.log(authorized);
   if(authorized?.length == 1) {
-    const item = authorized[0].data.data.tag;
-    console.log('Bebê: ', item);
+    const itemTag = authorized[0].data.data.tag;
+    console.log('Bebê: ', itemTag, (await item.isBaby(itemTag)).data?.status);
   }
 
   if (!permission) {
