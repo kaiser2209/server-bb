@@ -4,40 +4,22 @@ import roomService from "../services/roomsService";
 import { v4 } from 'uuid';
 import { Responses } from "../utils";
 import { IResponse } from "../interfaces";
+import { ItemController } from "../controllers/ItemController";
+import { createItemUseCase, findAllItensUseCase } from "../usecases/items";
 
 const router = Router();
 
-const item = new itemService();
-const room = new roomService();
+const controller = new ItemController(
+    createItemUseCase,
+    findAllItensUseCase
+    );
 
 router.post('/create_item', async (req: Request, res: Response) => {
-    const { name, tag, rooms } = req.body;
-
-    const result: IResponse = await item.createItem({
-        name,
-        tag,
-        rooms,
-        id: v4(),
-        createdAt: (new Date()).toISOString()
-    });
-
-    Responses(
-        res,
-        result.status,
-        result.message,
-        result.data
-    )
+    controller.create(req, res);
 });
 
 router.get('/', async (req: Request, res: Response) => {
-    const result: IResponse = await item.getItens();
-
-    Responses(
-        res,
-        result.status,
-        result.message,
-        result.data
-    )
+    controller.findAll(req, res);
 });
 
 export { router as routerItem }
