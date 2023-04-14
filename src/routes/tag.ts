@@ -37,7 +37,7 @@ router.get("/", async (req: Request, res: Response) => {
       message: "Tag fora da área permitida. Favor verificar.",
       object: result.data?.data,
     });
-    playAudio();
+    playAudio("../../assets/audio/pega_ladrao.mp3");
   }
 
   socket.sendMessage("Tag", {
